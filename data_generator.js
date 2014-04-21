@@ -49,12 +49,12 @@ var generateRandomTweet = function(){
   tweet.created_at = new Date();
   addTweet(tweet);
 };
-
+// generate 10 randoms tweets at the start.
 for(var i = 0; i < 10; i++){
   generateRandomTweet();
 }
-
-var scheduleNextTweet = function(){
+//schedule next tweet for every 1.5 sec
+  var scheduleNextTweet = function(){
   generateRandomTweet();
   setTimeout(scheduleNextTweet, Math.random() * 1500);
 };
