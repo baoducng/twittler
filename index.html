@@ -19,10 +19,18 @@
           $tweet.appendTo($body);
           index -= 1;
         }
+          setInterval(function(){
+              $body.empty();
+              for (var i = 0; i < 10; i++){
+                  var $newTweet = $('<div></div>');
+                  var newTweet = streams.home[streams.home.length - 1 - i];
+                  $newTweet.text('@' + newTweet.user + ': ' + newTweet.message);
+                  $newTweet.appendTo($body);
+              }
+          },3000)
 
       });
     //show the new tweets some how
-
 
     </script>
   </body>
