@@ -5,7 +5,7 @@
 
 // set up data structures
 window.streams = {};
-streams.home = [];
+streams.home = []; //get the tweets from here
 streams.users = {};
 streams.users.shawndrost = [];
 streams.users.sharksforcheap = [];
@@ -21,6 +21,7 @@ var addTweet = function(newTweet){
 };
 
 // utility function
+//this function takes in an array an spit out a random element in the array
 var randomElement = function(array){
   var randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
@@ -33,9 +34,12 @@ var objects = ['my', 'your', 'the', 'a', 'my', 'an entire', 'this', 'that', 'the
 var nouns = ['cat', 'koolaid', 'system', 'city', 'worm', 'cloud', 'potato', 'money', 'way of life', 'belief system', 'security system', 'bad decision', 'future', 'life', 'pony', 'mind'];
 var tags = ['#techlife', '#burningman', '#sf', 'but only i know how', 'for real', '#sxsw', '#ballin', '#omg', '#yolo', '#magic', '', '', '', ''];
 
+
+//randomMessage uses random element can create an message
 var randomMessage = function(){
   return [randomElement(opening), randomElement(verbs), randomElement(objects), randomElement(nouns), randomElement(tags)].join(' ');
 };
+
 
 // generate random tweets on a random schedule
 var generateRandomTweet = function(){
