@@ -9,6 +9,7 @@ body {
     width: 700px;
     font-family: "Helvetica Neue ", sans-serif;
     margin: 0 auto
+
 }
 
 .draft{
@@ -28,4 +29,13 @@ body {
 #submit {
     width: 300px;
     margin: 0 auto;
+}
+
+.username {
+    color: #FE8484;
+    font-size: 20px;
+    width: 700px;
+    font-family: "Helvetica Neue ", sans-serif;
+    margin: 0 auto;
+
 }

@@ -7,35 +7,39 @@
   </head>
   <body>
     <div class="main"></div>
-   <input class="draft" id="draft" type="text"/> <button class="send">Send</button>
+   <div class="tweets"><input class="draft" id="draft" type="text"/> <button class="send">Send</button></div>
     <script>
 
       $(document).ready(function(){
         var $body = $('.main');
         $body.html('');
-
+     /*
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
+          var $tweet = $('<div class=' + '"' + 'tweets' + '"' + '></div>');
           $tweet.text('@' + tweet.user + ': ' + tweet.message);
           $tweet.appendTo($body);
           index -= 1;
         }
+        */
           //show the new tweets some how
           setInterval(function(){
               $body.empty();
               for (var i = 0; i < 11; i++){
-                  var $newTweet = $('<div></div>');
-                  var $timeStamp = $('<div></div>');
+                  var $newTweet = $('<div class=' + '"' + 'tweets' + '"' + '></div>');
+                  var $timeStamp = $('<div class=' + '"' + 'timestamp' + '"' + '></div>');
                   var newTweet = streams.home[streams.home.length - 1 - i];
-                  $newTweet.text('@' + newTweet.user + ': ' + newTweet.message);
+                  var $userName = $('<div class=' + '"' + 'username' + '"' + '>@' + newTweet.user + '</div>')
+                  $newTweet.text(newTweet.message);
                   $timeStamp.text('created at ' + newTweet.created_at);
+                  $userName.appendTo($body)
                   $newTweet.appendTo($body);
                   $timeStamp.appendTo($body);
 
               }
-          },3000)
+          },3000);
+
 
           /*
           //sending the tweet
@@ -45,7 +49,7 @@
             })
          */
       });
-
+        
 
 
     </script>
