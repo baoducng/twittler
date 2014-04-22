@@ -8,6 +8,8 @@
   <body>
     <div class="main"></div>
    <div class="tweets"><input class="draft" id="draft" type="text"/> <button class="send">Send</button></div>
+
+
     <script>
 
       $(document).ready(function(){
@@ -24,22 +26,44 @@
         }
         */
           //show the new tweets some how
-          setInterval(function(){
+          var resetTweet = setInterval(function(){
               $body.empty();
               for (var i = 0; i < 11; i++){
                   var $newTweet = $('<div class=' + '"' + 'tweets' + '"' + '></div>');
                   var $timeStamp = $('<div class=' + '"' + 'timestamp' + '"' + '></div>');
                   var newTweet = streams.home[streams.home.length - 1 - i];
-                  var $userName = $('<div class=' + '"' + 'username' + '"' + '>@' + newTweet.user + '</div>')
+                  var $userName = $('<div class=' + '"' + 'username' + '"' + '>@' + newTweet.user + '</div>');
                   $newTweet.text(newTweet.message);
                   $timeStamp.text('created at ' + newTweet.created_at);
-                  $userName.appendTo($body)
+                  $userName.appendTo($body);
                   $newTweet.appendTo($body);
                   $timeStamp.appendTo($body);
 
               }
-          },3000);
+          },1000);
+                //i dont know why this is not working. I tried to create a div by itself then it would work.
+                //stack over flow said that i can only assign event handler to element that exists
+                //http://learn.jquery.com/events/event-delegation/ READ THIS AGAIN
+               $('div').on('click','.username', function(){
 
+                   var currentUser = $(this).text();
+                   currentUser = currentUser.slice(1);
+                   $body.empty();
+                   clearInterval(resetTweet);
+                   var $userName = $('<div class=' + '"' + 'username' + '"' + '>@' + currentUser + '</div>');
+                   $userName.appendTo($body);
+                   $('.tweets').hide();
+                   for (var i = 0; i < streams.users[currentUser].length; i++){
+                       var $newTweet = $('<div class=' + '"' + 'tweets' + '"' + '></div>');
+                       var $timeStamp = $('<div class=' + '"' + 'timestamp' + '"' + '></div>');
+                       $newTweet.text(streams.users[currentUser][i].message);
+                       $timeStamp.text('created at ' + streams.users[currentUser][i].created_at);
+                       $newTweet.appendTo($body);
+                       $timeStamp.appendTo($body);
+
+                   }
+
+               });
 
           /*
           //sending the tweet
@@ -49,7 +73,7 @@
             })
          */
       });
-        
+
 
 
     </script>
