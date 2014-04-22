@@ -7,63 +7,74 @@
   </head>
   <body>
     <div class="main"></div>
-   <div class="tweets"><input class="draft" id="draft" type="text"/> <button class="send">Send</button></div>
+   <div class="tweets"><input class="draft" id="draft" type="text"/> <button class="send">Send</button><button id="reset">Reset</button></div>
 
 
     <script>
 
       $(document).ready(function(){
         var $body = $('.main');
+        var tweetFunction = null;
         $body.html('');
-     /*
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div class=' + '"' + 'tweets' + '"' + '></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
-        */
-          //show the new tweets some how
-          var resetTweet = setInterval(function(){
+        function resetTweet(flag, time){
+              if (flag){
+                  tweetFunction = setInterval(function(){
+                      $body.empty();
+
+                      for (var i = 0; i < 11; i++){
+                          var $newTweet = $('<div class=' + '"' + 'tweets' + '"' + '></div>');
+                          var $timeStamp = $('<div class=' + '"' + 'timestamp' + '"' + '></div>');
+                          var newTweet = streams.home[streams.home.length - 1 - i];
+                          var $userName = $('<div class=' + '"' + 'username' + '"' + '>@' + newTweet.user + '</div>');
+                          $newTweet.text(newTweet.message);
+                          $timeStamp.text('created at ' + newTweet.created_at);
+                          $userName.appendTo($body);
+                          $newTweet.appendTo($body);
+                          $timeStamp.appendTo($body);
+
+                      }
+                  },time);
+
+              }
+              else
+                  clearInterval(tweetFunction);
+          }
+
+        $('#reset').click(function(){
+              //http://stackoverflow.com/questions/10935026/how-to-clear-interval-and-set-it-again read this to solve the problem
+              resetTweet(true, 1500);
+          });
+
+        //http://learn.jquery.com/events/event-delegation/ READ THIS AGAIN
+        $('div').on('click','.username', function(){
+
+              var currentUser = $(this).text();
+              currentUser = currentUser.slice(1);
               $body.empty();
-              for (var i = 0; i < 11; i++){
+              resetTweet(false);
+              var $userName = $('<div class=' + '"' + 'username' + '"' + '>@' + currentUser + '</div>');
+              $userName.appendTo($body);
+
+              for (var i = 0; i < streams.users[currentUser].length; i++){
                   var $newTweet = $('<div class=' + '"' + 'tweets' + '"' + '></div>');
                   var $timeStamp = $('<div class=' + '"' + 'timestamp' + '"' + '></div>');
-                  var newTweet = streams.home[streams.home.length - 1 - i];
-                  var $userName = $('<div class=' + '"' + 'username' + '"' + '>@' + newTweet.user + '</div>');
-                  $newTweet.text(newTweet.message);
-                  $timeStamp.text('created at ' + newTweet.created_at);
-                  $userName.appendTo($body);
+                  $newTweet.text(streams.users[currentUser][i].message);
+                  $timeStamp.text('created at ' + streams.users[currentUser][i].created_at);
                   $newTweet.appendTo($body);
                   $timeStamp.appendTo($body);
 
+
               }
-          },1000);
-                //i dont know why this is not working. I tried to create a div by itself then it would work.
-                //stack over flow said that i can only assign event handler to element that exists
-                //http://learn.jquery.com/events/event-delegation/ READ THIS AGAIN
-               $('div').on('click','.username', function(){
 
-                   var currentUser = $(this).text();
-                   currentUser = currentUser.slice(1);
-                   $body.empty();
-                   clearInterval(resetTweet);
-                   var $userName = $('<div class=' + '"' + 'username' + '"' + '>@' + currentUser + '</div>');
-                   $userName.appendTo($body);
-                   $('.tweets').hide();
-                   for (var i = 0; i < streams.users[currentUser].length; i++){
-                       var $newTweet = $('<div class=' + '"' + 'tweets' + '"' + '></div>');
-                       var $timeStamp = $('<div class=' + '"' + 'timestamp' + '"' + '></div>');
-                       $newTweet.text(streams.users[currentUser][i].message);
-                       $timeStamp.text('created at ' + streams.users[currentUser][i].created_at);
-                       $newTweet.appendTo($body);
-                       $timeStamp.appendTo($body);
+          });
 
-                   }
 
-               });
+        resetTweet(true, 1500);
+
+
+
+
+
 
           /*
           //sending the tweet
